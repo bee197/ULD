@@ -144,6 +144,9 @@ class Trainer:
             total_reward += episode_reward
         mean_reward = total_reward / self.eval_episodes
         print(f"Evaluation after {self.total_steps} steps: mean reward = {mean_reward:.2f}")
+        # 追加写入日志
+        with open("uld_eval_log.csv", "a") as f:
+            f.write(f"{self.total_steps},{mean_reward}\n")
         return mean_reward
 
     def train(self):

@@ -107,7 +107,6 @@ class ULDAgent:
         # 双 Q 网络
         self.critic = TwinCritic(
             latent_dim=self.latent_dim,
-            action_dim=self.action_dim,
             hidden_dims=cfg["hidden_dims"],
         ).to(self.device)
 
@@ -317,8 +316,6 @@ class ULDAgent:
             "value_loss": value_loss.item(),
             "policy_loss": policy_loss.item() if step % self.policy_delay == 0 else 0.0,
             "reward_scale": self.reward_scale,
-            **repr_loss_dict,
-            **value_loss_dict,
         }
 
     def add_transition(self, obs, action, reward, next_obs, done):

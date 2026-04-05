@@ -53,17 +53,17 @@ class PolicyLoss:
         pre_activation = actor_out.get("pre_activation", None)
 
         # 构造状态‑动作嵌入
-        # z_sa = sa_encoder(z_s, action)         # (B, latent_dim)
+        z_sa = sa_encoder(z_s, action)         # (B, latent_dim)
 
         # 计算两个 Q 值
-        q1, q2 = critic(z_s, action)                  # 各为 (B, 1)
+        q1, q2 = critic(z_sa)                  # 各为 (B, 1)
 
         # 打印取均值用于监控
-        # print(f"Policy Loss - Q1 mean: {q1.mean().item():.4f}, Q2 mean: {q2.mean().item():.4f}", flush=True)
+        print(f"Policy Loss - Q1 mean: {q1.mean().item():.4f}, Q2 mean: {q2.mean().item():.4f}", flush=True)
         # print("Q diff:", (q1 - q2).abs().mean().item())
 
         # 策略损失：最大化 Q（即最小化负 Q）
-        loss_q = -0.5 * (q1 + q2).mean() + 0.01 * (action**2).mean()       # 标量
+        loss_q = -0.5 * (q1 + q2).mean()      # 标量
 
         # 预激活正则化（若启用且提供了预激活值）
         reg_loss = 0.0
