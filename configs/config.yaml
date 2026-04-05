@@ -1,11 +1,11 @@
-env_name: "Pendulum-v1"
+env_name: "HalfCheetah-v4"
 seed: 42
-total_steps: 200_000
-start_steps: 2000
+total_steps: 1_000_000
+start_steps: 10000
 update_every: 1
-eval_interval: 5000
-eval_episodes: 5
-batch_size: 512
+eval_interval: 10000
+eval_episodes: 10
+batch_size: 256
 num_envs: 4
 
 latent_dim: 64
@@ -14,27 +14,27 @@ hidden_dims: [256, 256]
 
 gamma: 0.99
 tau: 0.005
-policy_delay: 4
+policy_delay: 2
 
 H_enc: 1
 H_Q: 3
-nstep: 2
+nstep: 4
 
 lambda_r: 1.0
 lambda_d: 1.0
 lambda_t: 1.0
 lambda_pre: 0.0
 
-lr_repr: 0.0003
-lr_critic: 0.00003
-lr_actor: 0.00003
+lr_repr: 0.00003
+lr_critic: 0.00001
+lr_actor: 0.00001
 
-buffer_capacity: 100_000
+buffer_capacity: 1_000_000
 alpha_prior: 0.0
 beta_prior: 1.0
 
 num_bins: 101
-vmin: -3   # 覆盖 Pendulum 奖励范围
-vmax: 1
+vmin: -10.0
+vmax: 3000.0
 
 device: "cuda"

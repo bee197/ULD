@@ -105,9 +105,9 @@ class ValueLoss:
         # 当前动作
         current_actions = actions_seq[:, 0]        # (B, action_dim)
         # 状态‑动作嵌入
-        # z_sa = sa_encoder(z_s, current_actions)    # (B, latent_dim)
+        z_sa = sa_encoder(z_s, current_actions)    # (B, latent_dim)
         # 当前 Q 值（两个网络输出）
-        q1_pred, q2_pred = critic(z_s, current_actions)            # 各为 (B, 1)
+        q1_pred, q2_pred = critic(z_sa)            # 各为 (B, 1)
         # 打印q
         # print(f"q1_pred: {q1_pred.mean().item():.4f}, q2_pred: {q2_pred.mean().item():.4f}")
 
@@ -129,7 +129,8 @@ class ValueLoss:
                 next_action = (next_action + noise).clamp(-1, 1)
 
             # 2.4 目标 Q 值（双 Q 取最小值）
-            q1_next, q2_next = critic_target(z_next, next_action)  # (B, 1)
+            z_sa_next = sa_encoder(z_next, next_action)
+            q1_next, q2_next = critic_target(z_sa_next)
             if self.use_double_q:
                 q_next = torch.min(q1_next, q2_next)     # (B, 1)
             else:
