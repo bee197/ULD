@@ -1,0 +1,49 @@
+# 环境与基础
+env_name: "HalfCheetah-v4"
+seed: 42
+total_steps: 1_000_000          # 论文中为 1M 步
+start_steps: 10000              # 随机探索步数适当增加
+update_every: 1
+eval_interval: 10000
+eval_episodes: 10
+batch_size: 256
+num_envs: 4
+
+# 网络结构
+latent_dim: 64
+encoder_type: "mlp"
+hidden_dims: [256, 256]
+
+# 强化学习超参
+gamma: 0.99
+tau: 0.005
+policy_delay: 2                 # 可保持 2 或 4
+
+# 多步长度
+H_enc: 1
+H_Q: 3
+nstep: 4                        # 必须 >= max(H_enc,H_Q)+1
+
+# 损失权重
+lambda_r: 1.0
+lambda_d: 1.0
+lambda_t: 1.0
+lambda_pre: 0.0
+
+# 学习率
+lr_repr: 0.0001
+lr_critic: 0.00003
+lr_actor: 0.00003
+
+# 缓冲区
+buffer_capacity: 1_000_000
+alpha_prior: 0.0
+beta_prior: 1.0
+
+# Two‑Hot 奖励（需根据归一化奖励范围调整）
+num_bins: 101
+vmin: -1.0
+vmax: 30.0                     # HalfCheetah 原始奖励约 0~3000，除以 reward_scale≈100 后约 0~30
+
+# 设备
+device: "cuda"
